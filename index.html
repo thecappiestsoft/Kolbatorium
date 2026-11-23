@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kolbatorium</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<!-- Style: kolejność ma znaczenie (theme.css definiuje zmienne używane w pozostałych) -->
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/periodic-table.css">
+<link rel="stylesheet" href="css/compounds.css">
+<link rel="stylesheet" href="css/flask.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/log.css">
+<link rel="stylesheet" href="css/misc.css">
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img class="logo" src="assets/logo.svg" alt="" width="46" height="46">
+      <div>
+        <h1>Kolbatorium</h1>
+        <p class="sub" data-t="sub">Łącz pierwiastki, dobieraj warunki i odkrywaj, gdzie spotykasz chemię na co dzień.</p>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="lang" role="group" aria-label="Język / Language">
+        <button class="langbtn" data-lang="pl" aria-pressed="true" title="Polski">PL</button>
+        <button class="langbtn" data-lang="en" aria-pressed="false" title="English">EN</button>
+      </div>
+      <div class="lang" id="themegrp" role="group" aria-label="Motyw">
+        <button class="themebtn" data-set-theme="light" aria-pressed="false" data-t-title="light"><span aria-hidden="true">☀</span><span class="sr" data-t="light">Tryb jasny</span></button>
+        <button class="themebtn" data-set-theme="dark" aria-pressed="false" data-t-title="dark"><span aria-hidden="true">☾</span><span class="sr" data-t="dark">Tryb ciemny</span></button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span data-t="points">Punkty</span><b id="score">0</b></div>
+        <div class="stat"><span data-t="compounds">Związki</span><b id="count">0/0</b><div class="progress"><i id="bar"></i></div></div>
+        <div class="stat"><span data-t="rankL">Stopień</span><b id="rank" style="font-size:15px;padding-top:4px">Praktykant</b></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="h-inv">
+      <div class="phead">
+        <h2 id="h-inv" data-t="cabinet">Szafka z odczynnikami</h2>
+        <div class="levels" id="levels" role="group"></div>
+      </div>
+      <p class="lvlnote" id="lvlnote"></p>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="t-el" aria-selected="true" data-t="tabTable">Układ okresowy</button>
+        <button class="tab" role="tab" id="t-cmp" aria-selected="false"><span data-t="compounds">Związki</span> <span id="cmpn"></span></button>
+        <button class="tab" role="tab" id="t-log" aria-selected="false" data-t="tabLog">Dziennik reakcji</button>
+        <input id="q" class="search" type="search" data-t-ph="search" placeholder="Szukaj (np. sód, Fe, kwas)…">
+      </div>
+      <div id="elwrap">
+        <div class="ptwrap"><div class="pt" id="pt"></div></div>
+        <div class="legend">
+          <span><i class="cat-alk"></i><span data-t="lg_alk">metale alkaliczne</span></span>
+          <span><i class="cat-ziem"></i><span data-t="lg_ziem">metale ziem alkalicznych</span></span>
+          <span><i class="cat-przej"></i><span data-t="lg_przej">metale przejściowe</span></span>
+          <span><i class="cat-pomet"></i><span data-t="lg_pomet">metale grup głównych</span></span>
+          <span><i class="cat-pol"></i><span data-t="lg_pol">półmetale</span></span>
+          <span><i class="cat-niem"></i><span data-t="lg_niem">niemetale</span></span>
+          <span><i class="cat-halo"></i><span data-t="lg_halo">fluorowce</span></span>
+          <span><i class="cat-szl"></i><span data-t="lg_szl">gazy szlachetne</span></span>
+          <span><i class="cat-lan"></i><span data-t="lg_lan">lantanowce</span></span>
+          <span><i class="cat-akt"></i><span data-t="lg_akt">aktynowce</span></span>
+          <span data-t="lg_dot">● bierze udział w reakcjach na tym poziomie</span>
+        </div>
+      </div>
+      <div id="cmpwrap" class="grid" hidden></div>
+      <div id="logwrap" hidden>
+        <div class="label" data-t="typesKnown">Typy reakcji, które już znasz</div>
+        <div id="types" class="types"></div>
+        <div id="log" class="log"></div>
+      </div>
+    </section>
+
+    <div class="side">
+      <section class="panel bench" aria-labelledby="h-bench">
+        <h2 id="h-bench" data-t="flask">Kolba reakcyjna</h2>
+        <div class="flaskrow">
+          <div class="flask" id="flask" aria-hidden="true">
+            <svg viewBox="0 0 100 130">
+              <path class="liq" id="liq" d="M22 92 L78 92 L90 118 Q92 124 85 124 L15 124 Q8 124 10 118 Z"/>
+              <circle class="bub" cx="40" cy="108" r="4"/><circle class="bub" cx="58" cy="112" r="3"/><circle class="bub" cx="50" cy="102" r="5"/>
+              <path class="glass" d="M38 8 L38 48 L10 118 Q7 126 16 126 L84 126 Q93 126 90 118 L62 48 L62 8"/>
+              <path class="glass" d="M33 8 L67 8"/>
+            </svg>
+          </div>
+          <div class="slots" id="slots"></div>
+        </div>
+        <div>
+          <div class="label" data-t="conditions">Warunki reakcji</div>
+          <div class="conds" id="conds"></div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="react" data-t="react">Przeprowadź reakcję</button>
+          <button class="btn" id="clear" data-t="clear">Wyczyść</button>
+          <button class="btn" id="hint" data-t="hint" data-t-title="hintTitle">Podpowiedź (−5)</button>
+        </div>
+        <div class="result" id="result" aria-live="polite"></div>
+      </section>
+
+      <section class="panel card" aria-labelledby="h-det">
+        <h2 id="h-det" style="margin-bottom:12px" data-t="cardTitle">Karta substancji</h2>
+        <div id="card"></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="foot">
+    <span data-t="footNote">Model uproszczony na potrzeby nauki: równania są zbilansowane, a warunki przemysłowe opisane w skrócie. Postęp zapisuje się na tym urządzeniu.</span>
+    <span id="resetbox"></span>
+  </div>
+  <footer class="copy">© 2026 CappySoft.pl</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Skrypty: najpierw teksty i dane, potem rdzeń (model, stan), widoki i na końcu main.js -->
+<script src="js/i18n/ui-strings.js"></script>
+<script src="js/data/elements.js"></script>
+<script src="js/data/compounds.js"></script>
+<script src="js/data/reactions.js"></script>
+<script src="js/i18n/elements.en.js"></script>
+<script src="js/i18n/compounds.en.js"></script>
+<script src="js/i18n/reactions.en.js"></script>
+<script src="js/core/model.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/ui/dom.js"></script>
+<script src="js/ui/header.js"></script>
+<script src="js/ui/table.js"></script>
+<script src="js/ui/compounds.js"></script>
+<script src="js/ui/log.js"></script>
+<script src="js/ui/card.js"></script>
+<script src="js/ui/flask.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

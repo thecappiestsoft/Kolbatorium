@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Kolbatorium: lewa kolba przechylona przelewa ciecz do prawej -->
+  <defs>
+    <path id="kf" d="M14.5 10 L14.5 19 L7.5 33 Q6.5 36 10 36 L26 36 Q29.5 36 28.5 33 L21.5 19 L21.5 10 Z"/>
+    <clipPath id="kl"><use href="#kf" transform="rotate(62 18 25)"/></clipPath>
+    <clipPath id="kr"><use href="#kf" transform="translate(24 21)"/></clipPath>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#9ad8b6" stroke="#14222b" stroke-width="3"/>
+  <!-- strumień cieczy -->
+  <path d="M30.8 18.6 C35.5 19 39.6 22 41.2 27" fill="none" stroke="#2c56c9" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="41.6" cy="30.3" r="1.5" fill="#2c56c9"/>
+  <!-- lewa kolba, przechylona; ciecz z poziomą powierzchnią -->
+  <use href="#kf" transform="rotate(62 18 25)" fill="#ffffff"/>
+  <rect x="0" y="22.5" width="40" height="30" fill="#2c56c9" clip-path="url(#kl)"/>
+  <g transform="rotate(62 18 25)" fill="none" stroke="#14222b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M14.5 10 L14.5 19 L7.5 33 Q6.5 36 10 36 L26 36 Q29.5 36 28.5 33 L21.5 19 L21.5 10"/>
+    <path d="M12.5 10 L23.5 10"/>
+  </g>
+  <!-- prawa kolba, stojąca -->
+  <use href="#kf" transform="translate(24 21)" fill="#ffffff"/>
+  <rect x="24" y="46" width="40" height="12" fill="#2c56c9" clip-path="url(#kr)"/>
+  <g transform="translate(24 21)" fill="none" stroke="#14222b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M14.5 10 L14.5 19 L7.5 33 Q6.5 36 10 36 L26 36 Q29.5 36 28.5 33 L21.5 19 L21.5 10"/>
+    <path d="M12.5 10 L23.5 10"/>
+  </g>
+</svg>

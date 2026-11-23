@@ -1,0 +1,9 @@
+/* Dziennik reakcji */
+/* Dziennik */
+.log{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto}
+.logitem{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.logitem .eq{font-family:var(--f-mono);font-size:13px;font-weight:700;overflow-x:auto;white-space:nowrap}
+.types{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.types span{font-size:12px;padding:3px 9px;border-radius:99px;border:1px solid var(--line)}
+.types span.on{background:var(--good);color:var(--surface);border-color:var(--good)}
+
